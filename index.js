@@ -9,12 +9,20 @@ const cors = require('cors');
 const xss = require('xss-clean');
 const rateLamter = require('express-rate-limit');
 
+// swagger
+const swaggerUI = require('swagger-ui-express');
+const YAML = require('yamljs');
+const swaggerDocument = YAML.load('./swagger.yaml');
+
 //connect db
 const connectDB = require('./db/connect');
-app.get(('/'),(req,res)=>{
-  res.send('jobs API')
-})
+
 //routers
+app.get('/', (req, res) => {
+  res.send(`<h1>jobs API</h1> <a href="/api-docs" >Documentation</a>`);
+});
+app.use('api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
+
 const authRouter = require('./routes/auth');
 const jobsRouter = require('./routes/jobs');
 
@@ -26,7 +34,7 @@ app.use(express.json());
 // extra packages
 
 // routes
-app.set('trust proxy', 1); 
+app.set('trust proxy', 1);
 app.use(
   rateLamter({
     windowMs: 15 * 60 * 100,
