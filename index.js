@@ -21,7 +21,7 @@ const connectDB = require('./db/connect');
 app.get('/', (req, res) => {
   res.send(`<h1>jobs API</h1> <a href="/api-docs" >Documentation</a>`);
 });
-app.use('api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 const authRouter = require('./routes/auth');
 const jobsRouter = require('./routes/jobs');
